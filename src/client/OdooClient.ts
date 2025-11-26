@@ -22,9 +22,6 @@ import type { ConnectionConfig, LoginResponse } from '../rpc/types';
 export class OdooClient {
   private connector?: JsonRpcConnector;
   private _env?: Environment;
-  private _database?: string;
-  private _uid?: number;
-  private _password?: string;
   private _context?: Record<string, any>;
 
   /**
@@ -43,7 +40,7 @@ export class OdooClient {
    * });
    * ```
    */
-  async connect(config: ConnectionConfig): Promise<void> {
+  connect(config: ConnectionConfig): void {
     this.connector = new JsonRpcConnector(config);
   }
 
@@ -64,22 +61,15 @@ export class OdooClient {
    * console.log('Logged in as user ID:', odoo.env.userId);
    * ```
    */
-  async login(
-    database: string,
-    username: string,
-    password: string
-  ): Promise<void> {
+  async login(database: string, username: string, password: string): Promise<void> {
     this.ensureConnected();
 
     try {
-      const result = await this.connector!.call<LoginResponse>(
-        '/web/session/authenticate',
-        {
-          db: database,
-          login: username,
-          password: password,
-        }
-      );
+      const result = await this.connector!.call<LoginResponse>('/web/session/authenticate', {
+        db: database,
+        login: username,
+        password: password,
+      });
 
       // Check if authentication was successful
       if (!result.uid) {
@@ -87,13 +77,10 @@ export class OdooClient {
       }
 
       // Store session information
-      this._database = database;
-      this._uid = result.uid as number;
-      this._password = password;
       this._context = result.user_context || {};
 
       // Create environment
-      this._env = new Environment(this, database, result.uid as number, this._context);
+      this._env = new Environment(this, database, result.uid, this._context);
     } catch (error) {
       if (error instanceof OdooAuthError || error instanceof OdooRpcError) {
         throw error;
@@ -142,12 +129,7 @@ export class OdooClient {
    * const ids = await odoo.executeKw('res.partner', 'search', [[['customer', '=', true]]], { limit: 5 });
    * ```
    */
-  async executeKw(
-    model: string,
-    method: string,
-    args: any[] = [],
-    kwargs: any = {}
-  ): Promise<any> {
+  async executeKw(model: string, method: string, args: any[] = [], kwargs: any = {}): Promise<any> {
     this.ensureAuthenticated();
 
     return this.connector!.call('/web/dataset/call_kw', {
@@ -298,9 +280,6 @@ export class OdooClient {
    */
   private clearSession(): void {
     this._env = undefined;
-    this._database = undefined;
-    this._uid = undefined;
-    this._password = undefined;
     this._context = undefined;
     this.connector?.clearSession();
   }

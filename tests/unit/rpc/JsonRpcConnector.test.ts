@@ -179,10 +179,7 @@ describe('JsonRpcConnector', () => {
           result: {},
         },
         headers: {
-          'set-cookie': [
-            'session_id=cookie456; Path=/; HttpOnly',
-            'other_cookie=value',
-          ],
+          'set-cookie': ['session_id=cookie456; Path=/; HttpOnly', 'other_cookie=value'],
         },
       });
 
@@ -216,9 +213,7 @@ describe('JsonRpcConnector', () => {
       await connector.call('/web/dataset/call_kw', {});
 
       const secondCall = mockAxiosInstance.post.mock.calls[1];
-      expect(secondCall?.[2]?.headers?.Cookie).toBe(
-        'session_id=session789; Path=/'
-      );
+      expect(secondCall?.[2]?.headers?.Cookie).toBe('session_id=session789; Path=/');
     });
 
     it('should throw OdooRpcError on server error', async () => {
@@ -238,13 +233,9 @@ describe('JsonRpcConnector', () => {
         headers: {},
       });
 
-      await expect(
-        connector.call('/endpoint', {})
-      ).rejects.toThrow(OdooRpcError);
+      await expect(connector.call('/endpoint', {})).rejects.toThrow(OdooRpcError);
 
-      await expect(
-        connector.call('/endpoint', {})
-      ).rejects.toThrow('Access denied');
+      await expect(connector.call('/endpoint', {})).rejects.toThrow('Access denied');
     });
 
     it('should throw OdooRpcError on network error', async () => {
@@ -254,9 +245,7 @@ describe('JsonRpcConnector', () => {
 
       (mockedAxios.isAxiosError as any) = jest.fn().mockReturnValue(true);
 
-      await expect(
-        connector.call('/endpoint', {})
-      ).rejects.toThrow(OdooRpcError);
+      await expect(connector.call('/endpoint', {})).rejects.toThrow(OdooRpcError);
     });
 
     it('should throw OdooRpcError with status code on HTTP error', async () => {
@@ -278,33 +267,23 @@ describe('JsonRpcConnector', () => {
       mockAxiosInstance.post.mockRejectedValue(httpError);
       (mockedAxios.isAxiosError as any) = jest.fn().mockReturnValue(true);
 
-      await expect(connector.call('/endpoint', {})).rejects.toThrow(
-        OdooRpcError
-      );
+      await expect(connector.call('/endpoint', {})).rejects.toThrow(OdooRpcError);
     });
 
     it('should handle generic errors', async () => {
-      mockAxiosInstance.post.mockRejectedValue(
-        new Error('Unexpected error')
-      );
+      mockAxiosInstance.post.mockRejectedValue(new Error('Unexpected error'));
       (mockedAxios.isAxiosError as any) = jest.fn().mockReturnValue(false);
 
-      await expect(
-        connector.call('/endpoint', {})
-      ).rejects.toThrow(OdooRpcError);
+      await expect(connector.call('/endpoint', {})).rejects.toThrow(OdooRpcError);
 
-      await expect(
-        connector.call('/endpoint', {})
-      ).rejects.toThrow('Unexpected error');
+      await expect(connector.call('/endpoint', {})).rejects.toThrow('Unexpected error');
     });
 
     it('should handle non-Error exceptions', async () => {
       mockAxiosInstance.post.mockRejectedValue('String error');
       (mockedAxios.isAxiosError as any) = jest.fn().mockReturnValue(false);
 
-      await expect(
-        connector.call('/endpoint', {})
-      ).rejects.toThrow('Unknown error occurred');
+      await expect(connector.call('/endpoint', {})).rejects.toThrow('Unknown error occurred');
     });
   });
 

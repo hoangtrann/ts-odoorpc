@@ -73,9 +73,7 @@ export function mapOdooTypeToTypescript(field: OdooFieldInfo): string {
     // Selection field - create union type
     case 'selection':
       if (field.selection && field.selection.length > 0) {
-        const values = field.selection
-          .map(([value]) => `'${value}'`)
-          .join(' | ');
+        const values = field.selection.map(([value]) => `'${value}'`).join(' | ');
         tsType = values;
       } else {
         tsType = 'string';
@@ -114,10 +112,7 @@ export function mapOdooTypeToTypescript(field: OdooFieldInfo): string {
 /**
  * Generate JSDoc comment for a field
  */
-export function generateFieldJsDoc(
-  fieldName: string,
-  field: OdooFieldInfo
-): string {
+export function generateFieldJsDoc(fieldName: string, field: OdooFieldInfo): string {
   const lines: string[] = ['/**'];
 
   // Add field label

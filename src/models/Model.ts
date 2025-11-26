@@ -14,12 +14,7 @@ import { RecordSet } from './RecordSet';
  * The actual Environment interface/class will be defined in src/env/Environment.ts
  */
 export interface IEnvironment {
-  executeKw(
-    model: string,
-    method: string,
-    args: any[],
-    kwargs?: Record<string, any>
-  ): Promise<any>;
+  executeKw(model: string, method: string, args: any[], kwargs?: Record<string, any>): Promise<any>;
   withContext(ctx: Record<string, any>): IEnvironment;
   model<T = any>(modelName: string): Model<T>;
   readonly context: Record<string, any>;
@@ -144,12 +139,7 @@ export class Model<T = any> {
       kwargs.order = options.order;
     }
 
-    const data = await this.env.executeKw(
-      this.modelName,
-      'search_read',
-      [domain],
-      kwargs
-    );
+    const data = await this.env.executeKw(this.modelName, 'search_read', [domain], kwargs);
 
     // Extract IDs and create recordset
     const ids = data.map((record: any) => record.id);

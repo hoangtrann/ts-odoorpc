@@ -13,21 +13,35 @@
  * Configuration for connecting to an Odoo server.
  */
 export interface ConnectionConfig {
-    /** Hostname or IP address of the Odoo server */
-    host: string;
-    /** Port number (default: 8069) */
-    port?: number;
-    /** Protocol to use (default: 'http') */
-    protocol?: 'http' | 'https';
-    /** Request timeout in milliseconds (default: 120000) */
-    timeout?: number;
+  /** Hostname or IP address of the Odoo server */
+  host: string;
+  /** Port number (default: 8069) */
+  port?: number;
+  /** Protocol to use (default: 'http') */
+  protocol?: 'http' | 'https';
+  /** Request timeout in milliseconds (default: 120000) */
+  timeout?: number;
 }
 /**
  * Odoo domain operators for filtering records.
  *
  * @see https://www.odoo.com/documentation/16.0/developer/reference/backend/orm.html#reference-orm-domains
  */
-export type DomainOperator = '=' | '!=' | '>' | '<' | '>=' | '<=' | 'like' | 'ilike' | 'in' | 'not in' | '=like' | '=ilike' | 'not like' | 'not ilike';
+export type DomainOperator =
+  | '='
+  | '!='
+  | '>'
+  | '<'
+  | '>='
+  | '<='
+  | 'like'
+  | 'ilike'
+  | 'in'
+  | 'not in'
+  | '=like'
+  | '=ilike'
+  | 'not like'
+  | 'not ilike';
 /**
  * A domain leaf is a tuple of [field, operator, value].
  *
@@ -107,19 +121,19 @@ export type DateTimeValue = string | false;
  * Options for search operations.
  */
 export interface SearchOptions {
-    /** Maximum number of records to return */
-    limit?: number;
-    /** Number of records to skip (for pagination) */
-    offset?: number;
-    /** Sort order, e.g., "name ASC, create_date DESC" */
-    order?: string;
+  /** Maximum number of records to return */
+  limit?: number;
+  /** Number of records to skip (for pagination) */
+  offset?: number;
+  /** Sort order, e.g., "name ASC, create_date DESC" */
+  order?: string;
 }
 /**
  * Options for read operations.
  */
 export interface ReadOptions {
-    /** List of fields to read. If not specified, all fields are read. */
-    fields?: string[];
+  /** List of fields to read. If not specified, all fields are read. */
+  fields?: string[];
 }
 /**
  * Context object for Odoo operations.
@@ -135,30 +149,30 @@ export type Context = Record<string, any>;
  * Field type information returned by fields_get.
  */
 export interface FieldDefinition {
-    /** Field type (e.g., 'char', 'integer', 'many2one', 'selection') */
-    type: string;
-    /** Human-readable field label */
-    string: string;
-    /** Whether this field is required */
-    required: boolean;
-    /** Whether this field is readonly */
-    readonly: boolean;
-    /** Help text for the field */
-    help?: string;
-    /** For relational fields, the name of the related model */
-    relation?: string;
-    /** For selection fields, the list of available values */
-    selection?: Array<[string, string]>;
-    /** For char/text fields, the maximum size */
-    size?: number;
-    /** Whether the field is searchable */
-    searchable?: boolean;
-    /** Whether the field is sortable */
-    sortable?: boolean;
-    /** Whether the field is stored in the database */
-    store?: boolean;
-    /** Additional field-specific attributes */
-    [key: string]: any;
+  /** Field type (e.g., 'char', 'integer', 'many2one', 'selection') */
+  type: string;
+  /** Human-readable field label */
+  string: string;
+  /** Whether this field is required */
+  required: boolean;
+  /** Whether this field is readonly */
+  readonly: boolean;
+  /** Help text for the field */
+  help?: string;
+  /** For relational fields, the name of the related model */
+  relation?: string;
+  /** For selection fields, the list of available values */
+  selection?: Array<[string, string]>;
+  /** For char/text fields, the maximum size */
+  size?: number;
+  /** Whether the field is searchable */
+  searchable?: boolean;
+  /** Whether the field is sortable */
+  sortable?: boolean;
+  /** Whether the field is stored in the database */
+  store?: boolean;
+  /** Additional field-specific attributes */
+  [key: string]: any;
 }
 /**
  * Result of a fields_get call - maps field names to their metadata.
@@ -168,34 +182,34 @@ export type FieldsGetResult = Record<string, FieldDefinition>;
  * Authentication response from Odoo login.
  */
 export interface AuthResult {
-    /** User ID of the authenticated user */
-    uid: number;
-    /** User's default context (language, timezone, etc.) */
-    user_context: Context;
-    /** Company ID of the user */
-    company_id?: number;
-    /** List of company IDs the user has access to */
-    allowed_company_ids?: number[];
-    /** Username */
-    username?: string;
-    /** Partner ID associated with the user */
-    partner_id?: number;
+  /** User ID of the authenticated user */
+  uid: number;
+  /** User's default context (language, timezone, etc.) */
+  user_context: Context;
+  /** Company ID of the user */
+  company_id?: number;
+  /** List of company IDs the user has access to */
+  allowed_company_ids?: number[];
+  /** Username */
+  username?: string;
+  /** Partner ID associated with the user */
+  partner_id?: number;
 }
 /**
  * Session information for persistence.
  */
 export interface SessionInfo {
-    /** Connection configuration */
-    config: ConnectionConfig;
-    /** Database name */
-    database: string;
-    /** User ID */
-    uid: number;
-    /** Username */
-    username: string;
-    /** User context */
-    context: Context;
-    /** Session ID (cookie) */
-    sessionId?: string;
+  /** Connection configuration */
+  config: ConnectionConfig;
+  /** Database name */
+  database: string;
+  /** User ID */
+  uid: number;
+  /** Username */
+  username: string;
+  /** User context */
+  context: Context;
+  /** Session ID (cookie) */
+  sessionId?: string;
 }
 //# sourceMappingURL=common.d.ts.map

@@ -53,9 +53,7 @@ export class RecordSet<T = any> {
       return false;
     }
     if (this._ids.length > 1) {
-      throw new Error(
-        'Cannot access id on multi-record RecordSet. Use ids property or iterate.'
-      );
+      throw new Error('Cannot access id on multi-record RecordSet. Use ids property or iterate.');
     }
     return this._ids[0]!;
   }
@@ -270,7 +268,13 @@ export class RecordSet<T = any> {
         }
 
         // Handle special properties that shouldn't trigger field access
-        if (prop === 'then' || prop === 'catch' || prop === 'finally' || prop === 'constructor' || prop === 'toJSON') {
+        if (
+          prop === 'then' ||
+          prop === 'catch' ||
+          prop === 'finally' ||
+          prop === 'constructor' ||
+          prop === 'toJSON'
+        ) {
           return undefined; // Return undefined to prevent Promise coercion
         }
 
@@ -302,9 +306,7 @@ export class RecordSet<T = any> {
 
         // Field access - check if data is loaded
         if (!target.loaded) {
-          throw new Error(
-            `Field '${prop}' not loaded. Call .read() or use .searchRead() first.`
-          );
+          throw new Error(`Field '${prop}' not loaded. Call .read() or use .searchRead() first.`);
         }
 
         // Multi-record check for field access
@@ -329,14 +331,15 @@ export class RecordSet<T = any> {
 
       set(target, prop: string | symbol, value: any): boolean {
         // Allow setting internal properties (used by searchRead)
-        if (typeof prop === 'string' && (prop === 'cache' || prop === 'loaded' || prop.startsWith('_'))) {
+        if (
+          typeof prop === 'string' &&
+          (prop === 'cache' || prop === 'loaded' || prop.startsWith('_'))
+        ) {
           Reflect.set(target, prop, value);
           return true;
         }
 
-        throw new Error(
-          'Direct field assignment not supported. Use .write() method instead.'
-        );
+        throw new Error('Direct field assignment not supported. Use .write() method instead.');
       },
     }) as RecordSet<T>;
   }

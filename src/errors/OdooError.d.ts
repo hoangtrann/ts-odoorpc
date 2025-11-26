@@ -19,12 +19,12 @@
  * ```
  */
 export declare class OdooError extends Error {
-    /**
-     * Creates a new OdooError.
-     *
-     * @param message - Error message
-     */
-    constructor(message: string);
+  /**
+   * Creates a new OdooError.
+   *
+   * @param message - Error message
+   */
+  constructor(message: string);
 }
 /**
  * Error thrown when a JSON-RPC call to Odoo fails.
@@ -46,45 +46,41 @@ export declare class OdooError extends Error {
  * ```
  */
 export declare class OdooRpcError extends OdooError {
-    readonly code?: number | undefined;
-    readonly data?: any | undefined;
-    /**
-     * Creates a new OdooRpcError.
-     *
-     * @param message - Error message
-     * @param code - Error code (from JSON-RPC error object)
-     * @param data - Additional error data (from JSON-RPC error object)
-     */
-    constructor(message: string, code?: number | undefined, data?: any | undefined);
-    /**
-     * Gets the exception name from the error data.
-     * Common Odoo exceptions include:
-     * - ValidationError
-     * - AccessError
-     * - UserError
-     * - MissingError
-     *
-     * @returns The exception name, or undefined if not available
-     */
-    get exceptionName(): string | undefined;
-    /**
-     * Gets the debug information from the error data.
-     * This typically includes a Python traceback.
-     *
-     * @returns The debug information, or undefined if not available
-     */
-    get debugInfo(): string | undefined;
-    /**
-     * Creates an OdooRpcError from a JSON-RPC error object.
-     *
-     * @param error - The JSON-RPC error object
-     * @returns A new OdooRpcError instance
-     */
-    static fromJsonRpcError(error: {
-        code: number;
-        message: string;
-        data?: any;
-    }): OdooRpcError;
+  readonly code?: number | undefined;
+  readonly data?: any | undefined;
+  /**
+   * Creates a new OdooRpcError.
+   *
+   * @param message - Error message
+   * @param code - Error code (from JSON-RPC error object)
+   * @param data - Additional error data (from JSON-RPC error object)
+   */
+  constructor(message: string, code?: number | undefined, data?: any | undefined);
+  /**
+   * Gets the exception name from the error data.
+   * Common Odoo exceptions include:
+   * - ValidationError
+   * - AccessError
+   * - UserError
+   * - MissingError
+   *
+   * @returns The exception name, or undefined if not available
+   */
+  get exceptionName(): string | undefined;
+  /**
+   * Gets the debug information from the error data.
+   * This typically includes a Python traceback.
+   *
+   * @returns The debug information, or undefined if not available
+   */
+  get debugInfo(): string | undefined;
+  /**
+   * Creates an OdooRpcError from a JSON-RPC error object.
+   *
+   * @param error - The JSON-RPC error object
+   * @returns A new OdooRpcError instance
+   */
+  static fromJsonRpcError(error: { code: number; message: string; data?: any }): OdooRpcError;
 }
 /**
  * Error thrown when authentication fails.
@@ -104,12 +100,12 @@ export declare class OdooRpcError extends OdooError {
  * ```
  */
 export declare class OdooAuthError extends OdooError {
-    /**
-     * Creates a new OdooAuthError.
-     *
-     * @param message - Error message
-     */
-    constructor(message: string);
+  /**
+   * Creates a new OdooAuthError.
+   *
+   * @param message - Error message
+   */
+  constructor(message: string);
 }
 /**
  * Error thrown when a network request fails.
@@ -130,14 +126,14 @@ export declare class OdooAuthError extends OdooError {
  * ```
  */
 export declare class OdooNetworkError extends OdooError {
-    readonly cause?: Error | undefined;
-    /**
-     * Creates a new OdooNetworkError.
-     *
-     * @param message - Error message
-     * @param cause - The underlying error that caused this error
-     */
-    constructor(message: string, cause?: Error | undefined);
+  readonly cause?: Error | undefined;
+  /**
+   * Creates a new OdooNetworkError.
+   *
+   * @param message - Error message
+   * @param cause - The underlying error that caused this error
+   */
+  constructor(message: string, cause?: Error | undefined);
 }
 /**
  * Error thrown when an operation is attempted before authentication.
@@ -157,11 +153,11 @@ export declare class OdooNetworkError extends OdooError {
  * ```
  */
 export declare class OdooSessionError extends OdooError {
-    /**
-     * Creates a new OdooSessionError.
-     *
-     * @param message - Error message
-     */
-    constructor(message: string);
+  /**
+   * Creates a new OdooSessionError.
+   *
+   * @param message - Error message
+   */
+  constructor(message: string);
 }
 //# sourceMappingURL=OdooError.d.ts.map

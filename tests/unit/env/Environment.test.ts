@@ -219,19 +219,11 @@ describe('Environment', () => {
     it('should delegate to client.executeKw', async () => {
       mockClient.executeKw.mockResolvedValue([1, 2, 3]);
 
-      const result = await env.executeKw(
-        'res.partner',
-        'search',
-        [[]],
-        { limit: 10 }
-      );
+      const result = await env.executeKw('res.partner', 'search', [[]], { limit: 10 });
 
-      expect(mockClient.executeKw).toHaveBeenCalledWith(
-        'res.partner',
-        'search',
-        [[]],
-        { limit: 10 }
-      );
+      expect(mockClient.executeKw).toHaveBeenCalledWith('res.partner', 'search', [[]], {
+        limit: 10,
+      });
       expect(result).toEqual([1, 2, 3]);
     });
 
@@ -252,9 +244,7 @@ describe('Environment', () => {
       const error = new Error('RPC Error');
       mockClient.executeKw.mockRejectedValue(error);
 
-      await expect(
-        env.executeKw('res.partner', 'search', [[]])
-      ).rejects.toThrow('RPC Error');
+      await expect(env.executeKw('res.partner', 'search', [[]])).rejects.toThrow('RPC Error');
     });
   });
 

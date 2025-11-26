@@ -32,11 +32,7 @@ export { ReportService } from './services/ReportService';
 export { JsonRpcConnector } from './rpc/JsonRpcConnector';
 
 // Error classes
-export {
-  OdooError,
-  OdooRpcError,
-  OdooAuthError,
-} from './errors/OdooError';
+export { OdooError, OdooRpcError, OdooAuthError } from './errors/OdooError';
 
 // Type exports - Common types
 export type {

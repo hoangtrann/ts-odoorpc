@@ -33,14 +33,10 @@ export const SKIP_INTEGRATION =
 /**
  * Helper to conditionally skip integration tests
  */
-export const describeIntegration = SKIP_INTEGRATION
-  ? describe.skip
-  : describe;
+export const describeIntegration = SKIP_INTEGRATION ? describe.skip : describe;
 
 /**
  * Helper to conditionally skip e2e tests
  */
 export const describeE2E =
-  process.env.SKIP_E2E === 'true' || process.env.CI === 'true'
-    ? describe.skip
-    : describe;
+  process.env.SKIP_E2E === 'true' || process.env.CI === 'true' ? describe.skip : describe;

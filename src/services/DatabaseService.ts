@@ -42,10 +42,7 @@ export class DatabaseService {
    */
   async list(): Promise<string[]> {
     try {
-      const result = await this.connector.call<string[]>(
-        '/web/database/list',
-        {}
-      );
+      const result = await this.connector.call<string[]>('/web/database/list', {});
       return result;
     } catch (error) {
       throw this.wrapError(error, 'Failed to list databases');
@@ -107,13 +104,10 @@ export class DatabaseService {
    */
   async drop(dbName: string, adminPassword: string): Promise<boolean> {
     try {
-      const result = await this.connector.call<boolean>(
-        '/web/database/drop',
-        {
-          master_pwd: adminPassword,
-          name: dbName,
-        }
-      );
+      const result = await this.connector.call<boolean>('/web/database/drop', {
+        master_pwd: adminPassword,
+        name: dbName,
+      });
       return result;
     } catch (error) {
       throw this.wrapError(error, `Failed to drop database '${dbName}'`);
@@ -134,11 +128,7 @@ export class DatabaseService {
    * await odoo.db.duplicate('proddb', 'testdb', 'master_password');
    * ```
    */
-  async duplicate(
-    dbName: string,
-    newDbName: string,
-    adminPassword: string
-  ): Promise<void> {
+  async duplicate(dbName: string, newDbName: string, adminPassword: string): Promise<void> {
     try {
       await this.connector.call('/web/database/duplicate', {
         master_pwd: adminPassword,
@@ -146,10 +136,7 @@ export class DatabaseService {
         new_name: newDbName,
       });
     } catch (error) {
-      throw this.wrapError(
-        error,
-        `Failed to duplicate database '${dbName}' to '${newDbName}'`
-      );
+      throw this.wrapError(error, `Failed to duplicate database '${dbName}' to '${newDbName}'`);
     }
   }
 
@@ -175,14 +162,11 @@ export class DatabaseService {
     format: 'zip' | 'dump' = 'zip'
   ): Promise<string> {
     try {
-      const result = await this.connector.call<string>(
-        '/web/database/backup',
-        {
-          master_pwd: adminPassword,
-          name: dbName,
-          backup_format: format,
-        }
-      );
+      const result = await this.connector.call<string>('/web/database/backup', {
+        master_pwd: adminPassword,
+        name: dbName,
+        backup_format: format,
+      });
       return result;
     } catch (error) {
       throw this.wrapError(error, `Failed to dump database '${dbName}'`);
@@ -236,10 +220,7 @@ export class DatabaseService {
    * await odoo.db.changePassword('old_master_pwd', 'new_master_pwd');
    * ```
    */
-  async changePassword(
-    oldPassword: string,
-    newPassword: string
-  ): Promise<void> {
+  async changePassword(oldPassword: string, newPassword: string): Promise<void> {
     try {
       await this.connector.call('/web/database/change_password', {
         master_pwd: oldPassword,
@@ -264,10 +245,7 @@ export class DatabaseService {
    */
   async serverVersion(): Promise<string> {
     try {
-      const result = await this.connector.call<string>(
-        '/web/database/get_server_version',
-        {}
-      );
+      const result = await this.connector.call<string>('/web/database/get_server_version', {});
       return result;
     } catch (error) {
       throw this.wrapError(error, 'Failed to get server version');
@@ -279,15 +257,10 @@ export class DatabaseService {
    */
   private wrapError(error: unknown, context: string): OdooRpcError {
     if (error instanceof OdooRpcError) {
-      return new OdooRpcError(
-        `${context}: ${error.message}`,
-        error.code,
-        error.data
-      );
+      return new OdooRpcError(`${context}: ${error.message}`, error.code, error.data);
     }
 
-    const message =
-      error instanceof Error ? error.message : 'Unknown error occurred';
+    const message = error instanceof Error ? error.message : 'Unknown error occurred';
     return new OdooRpcError(`${context}: ${message}`);
   }
 }

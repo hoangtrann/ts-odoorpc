@@ -94,7 +94,7 @@ export type Domain = Array<DomainLeaf | DomainConnector>;
  * Odoo returns Many2one fields as [id, "Display Name"], but we store just the ID.
  * false indicates no relation set.
  */
-export type Many2OneValue<T = any> = number | false;
+export type Many2OneValue = number | false;
 
 /**
  * One2many field value - represents a list of related records.

@@ -17,15 +17,10 @@ export function assertDefined<T>(
 /**
  * Assert that an array has a specific length
  */
-export function assertLength<T>(
-  array: T[],
-  expectedLength: number,
-  message?: string
-): void {
+export function assertLength<T>(array: T[], expectedLength: number, message?: string): void {
   if (array.length !== expectedLength) {
     throw new Error(
-      message ||
-        `Expected array to have length ${expectedLength}, but got ${array.length}`
+      message || `Expected array to have length ${expectedLength}, but got ${array.length}`
     );
   }
 }
@@ -40,9 +35,7 @@ export async function assertRejects<T extends Error>(
 ): Promise<void> {
   try {
     await promise;
-    throw new Error(
-      `Expected promise to reject with ${errorType.name}, but it resolved`
-    );
+    throw new Error(`Expected promise to reject with ${errorType.name}, but it resolved`);
   } catch (error) {
     if (!(error instanceof errorType)) {
       throw new Error(
@@ -70,9 +63,7 @@ export function assertHasProperties<T extends object>(
 ): void {
   for (const prop of properties) {
     if (!(prop in obj)) {
-      throw new Error(
-        message || `Expected object to have property "${String(prop)}"`
-      );
+      throw new Error(message || `Expected object to have property "${String(prop)}"`);
     }
   }
 }
@@ -80,10 +71,7 @@ export function assertHasProperties<T extends object>(
 /**
  * Assert that a function is called with specific arguments
  */
-export function assertCalledWith(
-  mockFn: jest.Mock,
-  ...expectedArgs: any[]
-): void {
+export function assertCalledWith(mockFn: jest.Mock, ...expectedArgs: any[]): void {
   const calls = mockFn.mock.calls;
   const match = calls.some((call) =>
     expectedArgs.every((arg, index) => {
@@ -98,9 +86,7 @@ export function assertCalledWith(
     throw new Error(
       `Expected function to be called with ${JSON.stringify(
         expectedArgs
-      )}, but it was called with:\n${calls
-        .map((c) => JSON.stringify(c))
-        .join('\n')}`
+      )}, but it was called with:\n${calls.map((c) => JSON.stringify(c)).join('\n')}`
     );
   }
 }

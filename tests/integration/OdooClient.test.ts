@@ -14,16 +14,8 @@ jest.mock('tough-cookie', () => ({
 }));
 
 import { OdooClient } from '../../src/client/OdooClient';
-import {
-  OdooAuthError,
-  OdooSessionError,
-  OdooRpcError,
-} from '../../src/errors/OdooError';
-import {
-  TEST_CONFIG,
-  TEST_CREDENTIALS,
-  describeIntegration,
-} from '../fixtures/config';
+import { OdooSessionError, OdooRpcError } from '../../src/errors/OdooError';
+import { TEST_CONFIG, TEST_CREDENTIALS, describeIntegration } from '../fixtures/config';
 
 describeIntegration('OdooClient Integration Tests', () => {
   let client: OdooClient;
@@ -50,9 +42,7 @@ describeIntegration('OdooClient Integration Tests', () => {
       });
 
       // The error will occur when trying to make an actual call
-      await expect(
-        client.login('test', 'admin', 'admin')
-      ).rejects.toThrow();
+      await expect(client.login('test', 'admin', 'admin')).rejects.toThrow();
     });
   });
 
@@ -76,18 +66,12 @@ describeIntegration('OdooClient Integration Tests', () => {
     it('should throw OdooAuthError with invalid credentials', async () => {
       // Odoo returns OdooRpcError for auth failures, not OdooAuthError
       // OdooAuthError is used for missing credentials, not invalid ones
-      await expect(
-        client.login(TEST_CREDENTIALS.database, 'invalid', 'wrong')
-      ).rejects.toThrow(); // Accept any error (Odoo returns RpcError)
+      await expect(client.login(TEST_CREDENTIALS.database, 'invalid', 'wrong')).rejects.toThrow(); // Accept any error (Odoo returns RpcError)
     });
 
     it('should throw error with invalid database', async () => {
       await expect(
-        client.login(
-          'nonexistent_db',
-          TEST_CREDENTIALS.username,
-          TEST_CREDENTIALS.password
-        )
+        client.login('nonexistent_db', TEST_CREDENTIALS.username, TEST_CREDENTIALS.password)
       ).rejects.toThrow();
     });
 
@@ -135,10 +119,7 @@ describeIntegration('OdooClient Integration Tests', () => {
 
     it('should perform search with domain', async () => {
       const Partner = client.env.model('res.partner');
-      const partners = await Partner.search(
-        [['is_company', '=', true]],
-        { limit: 5 }
-      );
+      const partners = await Partner.search([['is_company', '=', true]], { limit: 5 });
 
       expect(partners.length).toBeGreaterThanOrEqual(0);
       expect(partners.length).toBeLessThanOrEqual(5);
@@ -146,11 +127,7 @@ describeIntegration('OdooClient Integration Tests', () => {
 
     it('should perform searchRead', async () => {
       const Partner = client.env.model('res.partner');
-      const partners = await Partner.searchRead(
-        [],
-        ['name', 'email'],
-        { limit: 3 }
-      );
+      const partners = await Partner.searchRead([], ['name', 'email'], { limit: 3 });
 
       // searchRead returns a RecordSet, not an array
       expect(partners).toBeDefined();
@@ -252,17 +229,13 @@ describeIntegration('OdooClient Integration Tests', () => {
     it('should throw OdooRpcError on invalid model', async () => {
       const InvalidModel = client.env.model('nonexistent.model');
 
-      await expect(InvalidModel.searchCount([])).rejects.toThrow(
-        OdooRpcError
-      );
+      await expect(InvalidModel.searchCount([])).rejects.toThrow(OdooRpcError);
     });
 
     it('should throw error on invalid method call', async () => {
       const Partner = client.env.model('res.partner');
 
-      await expect(
-        Partner.call('nonexistent_method', [])
-      ).rejects.toThrow();
+      await expect(Partner.call('nonexistent_method', [])).rejects.toThrow();
     });
   });
 
@@ -277,21 +250,14 @@ describeIntegration('OdooClient Integration Tests', () => {
     });
 
     it('should execute model methods via executeKw', async () => {
-      const count = await client.executeKw('res.partner', 'search_count', [
-        [],
-      ]);
+      const count = await client.executeKw('res.partner', 'search_count', [[]]);
 
       expect(typeof count).toBe('number');
       expect(count).toBeGreaterThan(0);
     });
 
     it('should support kwargs in executeKw', async () => {
-      const ids = await client.executeKw(
-        'res.partner',
-        'search',
-        [[]],
-        { limit: 5 }
-      );
+      const ids = await client.executeKw('res.partner', 'search', [[]], { limit: 5 });
 
       expect(Array.isArray(ids)).toBe(true);
       expect(ids.length).toBeLessThanOrEqual(5);

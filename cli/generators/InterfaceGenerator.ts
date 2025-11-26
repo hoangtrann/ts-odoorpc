@@ -39,7 +39,7 @@ export class InterfaceGenerator {
   async generate(config: GeneratorConfig): Promise<void> {
     try {
       console.log('Connecting to Odoo server...');
-      await this.client.connect({
+      this.client.connect({
         host: config.host,
         port: config.port,
         protocol: config.protocol,
@@ -79,9 +79,7 @@ export class InterfaceGenerator {
       console.log(`\nSuccessfully generated ${generatedFiles.length} interfaces`);
       console.log(`Output directory: ${path.resolve(config.outputDir)}`);
     } catch (error) {
-      throw new Error(
-        `Generation failed: ${error instanceof Error ? error.message : error}`
-      );
+      throw new Error(`Generation failed: ${error instanceof Error ? error.message : error}`);
     }
   }
 
@@ -95,15 +93,10 @@ export class InterfaceGenerator {
 
     // Get all models from ir.model
     try {
-      const modelRecords = await this.client.executeKw(
-        'ir.model',
-        'search_read',
-        [[]],
-        {
-          fields: ['model'],
-          order: 'model ASC',
-        }
-      );
+      const modelRecords = await this.client.executeKw('ir.model', 'search_read', [[]], {
+        fields: ['model'],
+        order: 'model ASC',
+      });
 
       return modelRecords.map((record: any) => record.model);
     } catch (error) {
@@ -116,28 +109,12 @@ export class InterfaceGenerator {
   /**
    * Generate TypeScript interface for a single model
    */
-  private async generateModelInterface(
-    modelName: string,
-    outputDir: string
-  ): Promise<void> {
+  private async generateModelInterface(modelName: string, outputDir: string): Promise<void> {
     try {
       // Fetch field definitions
-      const fields = await this.client.executeKw(
-        modelName,
-        'fields_get',
-        [],
-        {
-          attributes: [
-            'type',
-            'string',
-            'required',
-            'readonly',
-            'relation',
-            'selection',
-            'help',
-          ],
-        }
-      );
+      const fields = await this.client.executeKw(modelName, 'fields_get', [], {
+        attributes: ['type', 'string', 'required', 'readonly', 'relation', 'selection', 'help'],
+      });
 
       // Convert to OdooFieldInfo format
       const fieldInfos: Record<string, OdooFieldInfo> = {};

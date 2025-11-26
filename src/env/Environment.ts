@@ -143,7 +143,7 @@ export class Environment {
     args: any[],
     kwargs?: Record<string, any>
   ): Promise<any> {
-    return this.client.executeKw(model, method, args, kwargs);
+    return await this.client.executeKw(model, method, args, kwargs);
   }
 
   /**

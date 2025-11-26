@@ -50,20 +50,13 @@ export class ReportService {
    * fs.writeFileSync('report.pdf', Buffer.from(pdfData, 'base64'));
    * ```
    */
-  async generate(
-    reportName: string,
-    _recordIds: number[],
-    _data?: Record<string, any>
-  ): Promise<string> {
+  generate(reportName: string, _recordIds: number[], _data?: Record<string, any>): Promise<string> {
     try {
       // This is a placeholder implementation
       // Full implementation would call the report generation endpoint
       throw new OdooRpcError('Report generation not yet implemented');
     } catch (error) {
-      throw this.wrapError(
-        error,
-        `Failed to generate report '${reportName}'`
-      );
+      throw this.wrapError(error, `Failed to generate report '${reportName}'`);
     }
   }
 
@@ -80,16 +73,13 @@ export class ReportService {
    * console.log('Available reports:', reports);
    * ```
    */
-  async getAvailable(modelName: string): Promise<ReportInfo[]> {
+  getAvailable(modelName: string): Promise<ReportInfo[]> {
     try {
       // This is a placeholder implementation
       // Full implementation would query ir.actions.report model
       throw new OdooRpcError('Get available reports not yet implemented');
     } catch (error) {
-      throw this.wrapError(
-        error,
-        `Failed to get reports for model '${modelName}'`
-      );
+      throw this.wrapError(error, `Failed to get reports for model '${modelName}'`);
     }
   }
 
@@ -98,15 +88,10 @@ export class ReportService {
    */
   private wrapError(error: unknown, context: string): OdooRpcError {
     if (error instanceof OdooRpcError) {
-      return new OdooRpcError(
-        `${context}: ${error.message}`,
-        error.code,
-        error.data
-      );
+      return new OdooRpcError(`${context}: ${error.message}`, error.code, error.data);
     }
 
-    const message =
-      error instanceof Error ? error.message : 'Unknown error occurred';
+    const message = error instanceof Error ? error.message : 'Unknown error occurred';
     return new OdooRpcError(`${context}: ${message}`);
   }
 }

@@ -92,9 +92,7 @@ export interface JsonRpcErrorResponse {
 /**
  * JSON-RPC 2.0 response (either success or error).
  */
-export type JsonRpcResponse<R = any> =
-  | JsonRpcSuccessResponse<R>
-  | JsonRpcErrorResponse;
+export type JsonRpcResponse<R = any> = JsonRpcSuccessResponse<R> | JsonRpcErrorResponse;
 
 /**
  * Parameters for the /web/session/authenticate endpoint.

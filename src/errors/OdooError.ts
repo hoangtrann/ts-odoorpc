@@ -111,13 +111,8 @@ export class OdooRpcError extends OdooError {
    * @param error - The JSON-RPC error object
    * @returns A new OdooRpcError instance
    */
-  static fromJsonRpcError(error: {
-    code: number;
-    message: string;
-    data?: any;
-  }): OdooRpcError {
-    const message =
-      error.data?.message || error.message || 'Unknown RPC error';
+  static fromJsonRpcError(error: { code: number; message: string; data?: any }): OdooRpcError {
+    const message = error.data?.message || error.message || 'Unknown RPC error';
     return new OdooRpcError(message, error.code, error.data);
   }
 }

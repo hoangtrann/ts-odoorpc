@@ -26,15 +26,17 @@ export class JsonRpcConnector {
     const baseURL = `${protocol}://${config.host}:${port}`;
 
     this.cookieJar = new CookieJar();
-    const client = wrapper(axios.create({
-      baseURL,
-      timeout: config.timeout || 120000,
-      jar: this.cookieJar, // Use cookie jar for proper cookie handling
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }));
+    const client = wrapper(
+      axios.create({
+        baseURL,
+        timeout: config.timeout || 120000,
+        jar: this.cookieJar, // Use cookie jar for proper cookie handling
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+    );
 
     this.axios = client;
   }
@@ -71,11 +73,7 @@ export class JsonRpcConnector {
         headers.Cookie = this.sessionCookie;
       }
 
-      const response = await this.axios.post<JsonRpcResponse<T>>(
-        endpoint,
-        request,
-        { headers }
-      );
+      const response = await this.axios.post<JsonRpcResponse<T>>(endpoint, request, { headers });
 
       if (this.isErrorResponse(response.data)) {
         throw new OdooRpcError(
@@ -115,15 +113,11 @@ export class JsonRpcConnector {
       // Handle axios errors
       if (axios.isAxiosError(error)) {
         const message =
-          error.response?.data?.error?.data?.message ||
-          error.message ||
-          'Network request failed';
+          error.response?.data?.error?.data?.message || error.message || 'Network request failed';
         throw new OdooRpcError(message, error.response?.status);
       }
 
-      throw new OdooRpcError(
-        error instanceof Error ? error.message : 'Unknown error occurred'
-      );
+      throw new OdooRpcError(error instanceof Error ? error.message : 'Unknown error occurred');
     }
   }
 
@@ -164,9 +158,7 @@ export class JsonRpcConnector {
   /**
    * Type guard to check if response is an error response.
    */
-  private isErrorResponse(
-    response: JsonRpcResponse
-  ): response is JsonRpcErrorResponse {
+  private isErrorResponse(response: JsonRpcResponse): response is JsonRpcErrorResponse {
     return 'error' in response;
   }
 
