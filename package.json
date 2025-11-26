@@ -2,8 +2,17 @@
   "name": "ts-odoorpc",
   "version": "0.1.0",
   "description": "TypeScript library for Odoo RPC with type safety",
+  "type": "module",
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "bin": {
     "odoo-rpc": "dist/cli/index.js"
   },

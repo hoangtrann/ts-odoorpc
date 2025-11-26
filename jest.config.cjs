@@ -20,4 +20,15 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'js', 'json'],
   verbose: true,
+  transformIgnorePatterns: [
+    'node_modules/(?!(axios-cookiejar-support|http-cookie-agent)/)',
+  ],
+  transform: {
+    '^.+\\.ts$': [
+      'ts-jest',
+      {
+        isolatedModules: true,
+      },
+    ],
+  },
 };

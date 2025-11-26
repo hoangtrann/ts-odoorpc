@@ -1,6 +1,6 @@
 import { JsonRpcConnector } from '../rpc/JsonRpcConnector';
 import { Environment } from '../env/Environment';
-import { OdooAuthError, OdooRpcError } from '../errors/OdooError';
+import { OdooAuthError, OdooRpcError, OdooSessionError } from '../errors/OdooError';
 import type { ConnectionConfig, LoginResponse } from '../rpc/types';
 
 /**
@@ -199,7 +199,7 @@ export class OdooClient {
    */
   get env(): Environment {
     if (!this._env) {
-      throw new Error('Not authenticated. Call login() first.');
+      throw new OdooSessionError('Not authenticated. Call login() first.');
     }
     return this._env;
   }
